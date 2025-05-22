@@ -26,9 +26,11 @@ jobs:
 
       - name: Restart Node.js app
         run: |
-          ssh -p 9999 ruslan@188.194.162.213 << 'EOF'
-          pkill -f 'node server.js' || true
-          nohup node ~/hello-node/server.js > ~/hello-node/app.log 2>&1 &
+          ssh -o StrictHostKeyChecking=no -p 9999 ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} << 'EOF'
+            cd ~/hello-node
+            npm install
+            pkill -f 'node server.js' || true
+            nohup node server.js > app.log 2>&1 &
           EOF
           
             
