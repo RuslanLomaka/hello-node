@@ -20,7 +20,8 @@ jobs:
 
       - name: Copy files to Raspberry Pi
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 9999" ./ ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }}:~/hello-node
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p 9999" ./ ruslan@188.194.162.213:~/hello-node
+      
       
 
       - name: Restart Node.js app
