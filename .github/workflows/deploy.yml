@@ -23,7 +23,7 @@ jobs:
 
       - name: Copy files to Raspberry Pi
         run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ $PI_USER@$PI_HOST:~/hello-node
+          rsync -avz --delete -e "ssh -p 9999 -o StrictHostKeyChecking=no" ./ $PI_USER@$PI_HOST:~/hello-node
         env:
           PI_HOST: ${{ secrets.PI_HOST }}
           PI_USER: ${{ secrets.PI_USER }}
