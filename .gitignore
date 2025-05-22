@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# IDE settings
+.idea/
+
+# OS junk
+.DS_Store
+
+# logs
+logs/
+*.log
+
+# environment variables (optional, for future use)
+.env
