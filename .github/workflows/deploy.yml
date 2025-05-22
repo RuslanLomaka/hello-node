@@ -1,0 +1,39 @@
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PI_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        env:
+          PI_SSH_KEY: ${{ secrets.PI_SSH_KEY }}
+
+      - name: Copy files to Raspberry Pi
+        run: |
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./ $PI_USER@$PI_HOST:~/hello-node
+        env:
+          PI_HOST: ${{ secrets.PI_HOST }}
+          PI_USER: ${{ secrets.PI_USER }}
+
+      - name: Restart Node.js app
+        run: |
+          ssh -o StrictHostKeyChecking=no $PI_USER@$PI_HOST '
+            pkill node || true
+            cd ~/hello-node && nohup node server.js > out.log 2>&1 &
+          '
+        env:
+          PI_HOST: ${{ secrets.PI_HOST }}
+          PI_USER: ${{ secrets.PI_USER }}
