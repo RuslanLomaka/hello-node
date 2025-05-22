@@ -28,3 +28,6 @@ jobs:
           pkill -f 'node server.js' || true
           nohup node ~/hello-node/server.js > ~/hello-node/app.log 2>&1 &
           EOF
+          
+          
+          
